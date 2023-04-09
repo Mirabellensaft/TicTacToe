@@ -5,11 +5,13 @@ pub struct Cell {
     // later :pixel_type: i32,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum CellStatus {
     Occupied,
     Free,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum Player {
     Blue,
     Red,
@@ -22,8 +24,10 @@ pub struct Grid {
 
 
 #[derive(Debug)]
-pub enum GameError {
-    ColumnFull,
+pub enum GameEvent {
+    FieldOccupied,
+    GameTied,
+    GameWon,
 }
 
 pub struct CellColor {
