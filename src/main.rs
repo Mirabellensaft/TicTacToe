@@ -36,13 +36,13 @@ fn main() {
                 } => {
                     let row = mouse_status.y() / 100;
                     let column = mouse_status.x() / 100;
-                    println!("mouse row: {}, col: {}", mouse_status.y(), mouse_status.x());
-                    println!("row: {}, col: {}", row, column);
+                    // println!("mouse row: {}, col: {}", mouse_status.y(), mouse_status.x());
+                    // println!("row: {}, col: {}", row, column);
                     let result =
                         lib::game::update_grid_with_new_coin(&mut grid, column, row, &player);
 
                     match result {
-                        Ok(()) => println!("Nothing to see here"),
+                        Ok(()) => println!(""),
                         Err(GameEvent::FieldOccupied) => {
                             println!("Field is occupied, please try another one.")
                         }

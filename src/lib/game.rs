@@ -27,7 +27,7 @@ pub fn update_grid_with_new_coin(
     };
 
     grid.grid[column as usize][row as usize] = cell;
-    println!("grid updated");
+    // println!("grid updated");
     detect_win(grid, player, row, column)?;
     grid_full(&grid)?;
     Ok(())
@@ -49,12 +49,12 @@ pub fn switch_player(player: Player) -> Player {
 fn field_occupied(grid: &Grid, column: i32, row: i32) -> Result<(), GameEvent> {
     match &grid.grid[column as usize][row as usize].status {
         CellStatus::Occupied => {
-            println!("occupied");
+            // println!("occupied");
 
             return Err(GameEvent::FieldOccupied);
         }
         CellStatus::Free => {
-            println!("free");
+            // println!("free");
             return Ok(());
         }
     }
