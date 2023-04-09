@@ -4,14 +4,13 @@ use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::Canvas;
 use sdl2::EventPump;
-use rand;
 
 pub mod types;
 pub mod game;
 
 use types::{Grid, Cell, CellStatus, Player, CellColor};
 
-// this function initializes the canvas
+/// This function initializes the canvas
 pub fn init(width: u32, height: u32) -> (Canvas<Window>, EventPump) {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
@@ -34,7 +33,7 @@ pub fn init(width: u32, height: u32) -> (Canvas<Window>, EventPump) {
 
 
 
-//creates a grid with ncells*ncells initialized with cell in a color
+/// Creates a grid with ncells*ncells initialized with cell in a color
 pub fn grid_init(nx_cells: u32, ny_cells: u32) -> Grid {
     let mut grid_vector = Vec::new();
 
@@ -52,7 +51,7 @@ pub fn grid_init(nx_cells: u32, ny_cells: u32) -> Grid {
     grid
 }
 
-//converts row column values into xy pixels and draws rectangle in the specified color
+/// Converts row column values into xy pixels and draws rectangle in the specified color
 pub fn display_cell(
     renderer: &mut Canvas<Window>,
     row: u32,
@@ -101,7 +100,7 @@ pub fn display_cell(
     }
 }
 
-//displays the whole grid by repeatedly calling display_cell on every cell
+/// Displays the whole grid by repeatedly calling display_cell on every cell
 pub fn display_frame(
     renderer: &mut Canvas<Window>,
     grid: &Grid,
@@ -109,7 +108,6 @@ pub fn display_frame(
     ny_cells: &u32,
     cell_width: &u32,
 ) {
-
 
     renderer.set_draw_color(Color::RGB(0, 0, 0));
     renderer.clear();
@@ -122,26 +120,21 @@ pub fn display_frame(
     renderer.present();
 }
 
-pub fn clear_grid(grid: &Grid) -> Grid {
+/// Clears the grid
+pub fn clear_grid(grid: &mut Grid) {
     println!("clearing grid");
 
-    let max_rows = &grid.grid.len();
-    let max_columns = &grid.grid[0].len();
+    let max_columns = &grid.grid.len();
+    let max_rows = &grid.grid[0].len();
 
-    let mut grid_vector = Vec::new();
 
-    for row in 0..*max_rows as i32 {
-        grid_vector.push(Vec::new());
-        for _column in 0..*max_columns as i32 {
-            grid_vector[row as usize].push(Cell{
-                player: Player::Neutral,
-                status: CellStatus::Free,
-            });
-        }
+
+    for column in 0..*max_columns as i32 {
+        for row in 0..*max_rows as i32 {
+            grid.grid[column as usize][row as usize].player = Player::Neutral;
+            grid.grid[column as usize][row as usize].status = CellStatus::Free;
+        };
     }
-
-    let grid = Grid { grid: grid_vector };
-
-    grid
-
 }
+
+
