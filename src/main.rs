@@ -1,4 +1,13 @@
-#![warn(array_into_iter, bare_trait_objects, ellipsis_inclusive_range_patterns, non_fmt_panics, rust_2021_incompatible_closure_captures, rust_2021_incompatible_or_patterns, rust_2021_prefixes_incompatible_syntax, rust_2021_prelude_collisions)]
+#![warn(
+    array_into_iter,
+    bare_trait_objects,
+    ellipsis_inclusive_range_patterns,
+    non_fmt_panics,
+    rust_2021_incompatible_closure_captures,
+    rust_2021_incompatible_or_patterns,
+    rust_2021_prefixes_incompatible_syntax,
+    rust_2021_prelude_collisions
+)]
 
 use sdl2::keyboard::Keycode;
 use sdl2::mouse::MouseButton;
@@ -6,9 +15,9 @@ use sdl2::{event::Event, mouse::MouseState};
 use std::{thread, time};
 
 mod game_lib;
-use game_lib::types::Player;
 use game_lib::canvas;
 use game_lib::types::GameEvent;
+use game_lib::types::Player;
 
 // this is main
 fn main() {
@@ -16,7 +25,7 @@ fn main() {
     let canvas_width = 300_u32;
     let canvas_height = 300_u32;
 
-    // number of rows and columss 
+    // number of rows and colums
     let columns = 3_u32;
     let rows = 3_u32;
 
@@ -27,9 +36,7 @@ fn main() {
 
     let mut player = Player::Red;
 
-    thread::spawn(move || {
-        // some work here
-    });
+    thread::spawn(move || {});
     'game: loop {
         let mouse_status = MouseState::new(&events);
         for event in events.poll_iter() {

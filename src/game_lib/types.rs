@@ -1,5 +1,5 @@
 /// A Cell is one of the 9 squares that need to be colored to set a player's mark.
-/// It keeps track if the cell is occupied or not, and if yes, by which player. 
+/// It keeps track if the cell is occupied or not, and if yes, by which player.
 pub struct Cell {
     pub player: Player,
     pub status: CellStatus,
@@ -23,8 +23,8 @@ pub enum Player {
 pub struct Grid {
     pub grid: Vec<Vec<Cell>>,
 }
-/// GameEvent contains the variants of important game events, such as a field is clicked that is already occupied, 
-/// a game that is ended by a tie, and a game that is ended by one player winning. 
+/// GameEvent contains the variants of important game events, such as a field is clicked that is already occupied,
+/// a game that is ended by a tie, and a game that is ended by one player winning.
 #[derive(Debug)]
 pub enum GameEvent {
     FieldOccupied,
@@ -32,7 +32,7 @@ pub enum GameEvent {
     GameWon,
 }
 
-/// CellColor keeps track of the Cell's color. 
+/// CellColor keeps track of the Cell's color.
 pub struct CellColor {
     pub red: u8,
     pub green: u8,
