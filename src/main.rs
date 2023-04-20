@@ -1,25 +1,29 @@
-// Dependencies go here
+#![warn(array_into_iter, bare_trait_objects, ellipsis_inclusive_range_patterns, non_fmt_panics, rust_2021_incompatible_closure_captures, rust_2021_incompatible_or_patterns, rust_2021_prefixes_incompatible_syntax, rust_2021_prelude_collisions)]
+
 use sdl2::keyboard::Keycode;
 use sdl2::mouse::MouseButton;
 use sdl2::{event::Event, mouse::MouseState};
 use std::{thread, time};
 
-mod lib;
-use lib::types::Player;
+mod game_lib;
+use game_lib::types::Player;
+use game_lib::canvas;
+use game_lib::types::GameEvent;
 
-use crate::lib::types::GameEvent;
 // this is main
 fn main() {
+    // canvas width in pixels
     let canvas_width = 300_u32;
     let canvas_height = 300_u32;
 
+    // number of rows and columss 
     let columns = 3_u32;
     let rows = 3_u32;
 
     let cell_width = canvas_width / columns;
 
-    let (mut canvas, mut events) = lib::init(canvas_width, canvas_height);
-    let mut grid = lib::grid_init(columns, rows);
+    let (mut canvas, mut events) = canvas::init(canvas_width, canvas_height);
+    let mut grid = canvas::grid_init(columns, rows);
 
     let mut player = Player::Red;
 
@@ -39,7 +43,7 @@ fn main() {
                     // println!("mouse row: {}, col: {}", mouse_status.y(), mouse_status.x());
                     // println!("row: {}, col: {}", row, column);
                     let result =
-                        lib::game::update_grid_with_new_coin(&mut grid, column, row, &player);
+                        game_lib::game::update_grid_with_new_mark(&mut grid, column, row, &player);
 
                     match result {
                         Ok(()) => println!(""),
@@ -49,17 +53,17 @@ fn main() {
                         Err(GameEvent::GameTied) => {
                             println!("Game is tied.");
                             thread::sleep(time::Duration::from_millis(800));
-                            lib::clear_grid(&mut grid);
+                            canvas::clear_grid(&mut grid);
                         }
 
                         Err(GameEvent::GameWon) => {
                             println!("Last player won!");
                             thread::sleep(time::Duration::from_millis(800));
-                            lib::clear_grid(&mut grid);
+                            canvas::clear_grid(&mut grid);
                         }
                     }
 
-                    player = lib::game::switch_player(player);
+                    player = game_lib::game::switch_player(player);
                 }
                 Event::Quit { .. }
                 | Event::KeyDown {
@@ -71,7 +75,7 @@ fn main() {
             }
         }
 
-        lib::display_frame(&mut canvas, &grid, &columns, &rows, &cell_width);
+        canvas::display_frame(&mut canvas, &grid, &columns, &rows, &cell_width);
         thread::sleep(time::Duration::from_millis(500));
     }
 }

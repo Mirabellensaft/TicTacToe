@@ -1,5 +1,5 @@
 [package]
-name = "TicTacToe"
+name = "tic_tac_toe"
 authors = ["Mirabellensaft <tanks@transfeld.net>"]
 version = "0.1.0"
 edition = "2021"

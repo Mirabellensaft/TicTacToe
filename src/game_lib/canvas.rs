@@ -1,14 +1,11 @@
-// Dependencies go here
+// this module contains all logic around the canvas and displaying playing field
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
 use sdl2::EventPump;
 
-pub mod game;
-pub mod types;
-
-use types::{Cell, CellColor, CellStatus, Grid, Player};
+use crate::game_lib::types::{Cell, CellColor, CellStatus, Grid, Player};
 
 /// This function initializes the canvas
 pub fn init(width: u32, height: u32) -> (Canvas<Window>, EventPump) {

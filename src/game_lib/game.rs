@@ -1,9 +1,8 @@
-use crate::lib::types::{Cell, CellStatus, GameEvent, Grid, Player};
+use crate::game_lib::types::{Cell, CellStatus, GameEvent, Grid, Player};
 
-/// This function updates the grid with the new coin and also calls a bunch of other functions
+/// This function updates the grid with the new mark and also calls a bunch of other functions
 /// that manage game events.
-
-pub fn update_grid_with_new_coin(
+pub fn update_grid_with_new_mark(
     grid: &mut Grid,
     column: i32,
     row: i32,
@@ -60,7 +59,7 @@ fn field_occupied(grid: &Grid, column: i32, row: i32) -> Result<(), GameEvent> {
     }
 }
 
-/// This function checks if all coins are placed.
+/// This function checks if all marks are placed.
 fn grid_full(grid: &Grid) -> Result<(), GameEvent> {
     let max_rows = grid.grid.len();
     let max_columns = grid.grid[0].len();
@@ -87,7 +86,7 @@ fn detect_win(
     Ok(())
 }
 
-/// Checks if there are three equal coins in straight lines
+/// Checks if there are three equal marks in straight lines
 fn across_win(
     grid: &Grid,
     last_row: i32,
