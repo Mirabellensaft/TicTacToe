@@ -34,7 +34,10 @@ const ROWS: u32 = 3;
 
 const CELL_WIDTH: u32 = CANVAS_WIDTH / COLUMNS;
 
-/// Main contains the game logic
+///# Main 
+/// 
+/// The main function contains the game loop. Most the of game's logic
+/// can be found in the [game_lib::game] sub module. 
 fn main() {
     let (mut canvas, mut pump_events) = canvas::init(CANVAS_WIDTH, CANVAS_HEIGHT);
     let mut grid = canvas::grid_init(COLUMNS, ROWS);
