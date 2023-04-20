@@ -19,21 +19,25 @@ use game_lib::canvas;
 use game_lib::types::GameEvent;
 use game_lib::types::Player;
 
+// Canvas and Playing Field Size
+
+// canvas width in pixels
+const CANVAS_WIDTH: u32 = 300;
+const CANVAS_HEIGHT: u32 = 300;
+
+// number of rows and colums
+const COLUMNS: u32 = 3;
+const ROWS: u32 = 3;
+
+const CELL_WIDTH: u32 = CANVAS_WIDTH / COLUMNS;
+
 // this is main
 fn main() {
-    // canvas width in pixels
-    let canvas_width = 300_u32;
-    let canvas_height = 300_u32;
 
-    // number of rows and colums
-    let columns = 3_u32;
-    let rows = 3_u32;
+    let (mut canvas, mut events) = canvas::init(CANVAS_WIDTH, CANVAS_HEIGHT);
+    let mut grid = canvas::grid_init(COLUMNS, ROWS);
 
-    let cell_width = canvas_width / columns;
-
-    let (mut canvas, mut events) = canvas::init(canvas_width, canvas_height);
-    let mut grid = canvas::grid_init(columns, rows);
-
+    // Starting Player
     let mut player = Player::Red;
 
     thread::spawn(move || {});
@@ -82,7 +86,7 @@ fn main() {
             }
         }
 
-        canvas::display_frame(&mut canvas, &grid, &columns, &rows, &cell_width);
+        canvas::display_frame(&mut canvas, &grid, &COLUMNS, &ROWS, &cell_width);
         thread::sleep(time::Duration::from_millis(500));
     }
 }
