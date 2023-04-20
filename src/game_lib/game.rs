@@ -8,7 +8,7 @@ pub fn update_grid_with_new_mark(
     row: i32,
     player: &Player,
 ) -> Result<(), GameEvent> {
-    field_occupied(grid, column, row)?;
+    is_field_occupied(grid, column, row)?;
 
     let cell = match player {
         Player::Blue => Cell {
@@ -28,7 +28,7 @@ pub fn update_grid_with_new_mark(
     grid.grid[column as usize][row as usize] = cell;
     // println!("grid updated");
     detect_win(grid, player, row, column)?;
-    grid_full(&grid)?;
+    is_grid_full(&grid)?;
     Ok(())
 }
 
@@ -45,7 +45,7 @@ pub fn switch_player(player: Player) -> Player {
 }
 
 /// This function checks if a field is occupied
-fn field_occupied(grid: &Grid, column: i32, row: i32) -> Result<(), GameEvent> {
+fn is_field_occupied(grid: &Grid, column: i32, row: i32) -> Result<(), GameEvent> {
     match &grid.grid[column as usize][row as usize].status {
         CellStatus::Occupied => {
             // println!("occupied");
@@ -60,7 +60,7 @@ fn field_occupied(grid: &Grid, column: i32, row: i32) -> Result<(), GameEvent> {
 }
 
 /// This function checks if all marks are placed.
-fn grid_full(grid: &Grid) -> Result<(), GameEvent> {
+fn is_grid_full(grid: &Grid) -> Result<(), GameEvent> {
     let max_rows = grid.grid.len();
     let max_columns = grid.grid[0].len();
 

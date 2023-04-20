@@ -15,26 +15,28 @@ use sdl2::{event::Event, mouse::MouseState};
 use std::{thread, time};
 
 mod game_lib;
-use game_lib::canvas;
-use game_lib::types::GameEvent;
-use game_lib::types::Player;
+use game_lib::{
+    canvas, game,
+    types::{GameEvent, Player},
+};
 
 // Canvas and Playing Field Size
 
-// canvas width in pixels
+/// Canvas width in pixels
 const CANVAS_WIDTH: u32 = 300;
+/// Canvas height in pixels
 const CANVAS_HEIGHT: u32 = 300;
 
-// number of rows and colums
+/// Number of colums
 const COLUMNS: u32 = 3;
+/// Number of rows
 const ROWS: u32 = 3;
 
 const CELL_WIDTH: u32 = CANVAS_WIDTH / COLUMNS;
 
-// this is main
+/// Main contains the game logic
 fn main() {
-
-    let (mut canvas, mut events) = canvas::init(CANVAS_WIDTH, CANVAS_HEIGHT);
+    let (mut canvas, mut pump_events) = canvas::init(CANVAS_WIDTH, CANVAS_HEIGHT);
     let mut grid = canvas::grid_init(COLUMNS, ROWS);
 
     // Starting Player
@@ -42,21 +44,24 @@ fn main() {
 
     thread::spawn(move || {});
     'game: loop {
-        let mouse_status = MouseState::new(&events);
-        for event in events.poll_iter() {
+        let mouse_status = MouseState::new(&pump_events);
+        for event in pump_events.poll_iter() {
             match event {
                 Event::MouseButtonDown {
                     mouse_btn: MouseButton::Left,
                     ..
                 } => {
-                    let row = mouse_status.y() / 100;
-                    let column = mouse_status.x() / 100;
-                    // println!("mouse row: {}, col: {}", mouse_status.y(), mouse_status.x());
-                    // println!("row: {}, col: {}", row, column);
-                    let result =
-                        game_lib::game::update_grid_with_new_mark(&mut grid, column, row, &player);
+                    let mouse_position_row = mouse_status.y() / 100;
+                    let mouse_position_column = mouse_status.x() / 100;
 
-                    match result {
+                    let game_event = game::update_grid_with_new_mark(
+                        &mut grid,
+                        mouse_position_column,
+                        mouse_position_row,
+                        &player,
+                    );
+
+                    match game_event {
                         Ok(()) => println!(""),
                         Err(GameEvent::FieldOccupied) => {
                             println!("Field is occupied, please try another one.")
@@ -74,7 +79,7 @@ fn main() {
                         }
                     }
 
-                    player = game_lib::game::switch_player(player);
+                    player = game::switch_player(player);
                 }
                 Event::Quit { .. }
                 | Event::KeyDown {
@@ -86,7 +91,7 @@ fn main() {
             }
         }
 
-        canvas::display_frame(&mut canvas, &grid, &COLUMNS, &ROWS, &cell_width);
+        canvas::display_frame(&mut canvas, &grid, &COLUMNS, &ROWS, &CELL_WIDTH);
         thread::sleep(time::Duration::from_millis(500));
     }
 }
